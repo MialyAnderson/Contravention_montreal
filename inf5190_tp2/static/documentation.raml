@@ -1,0 +1,44 @@
+#%RAML 1.0
+title: Service de Contraventions
+version: v1
+baseUri: http://localhost:5000
+
+/contrevenants:
+  get:
+    description: |
+      Retourne la liste des contraventions émises entre deux dates (inclusivement).
+      Les dates doivent être fournies sous forme de paramètres de requête au format ISO 8601 (YYYY-MM-DD).
+    queryParameters:
+      du:
+        type: date
+        required: true
+        description: Date de début de la plage
+      au:
+        type: date
+        required: true
+        description: Date de fin de la plage
+    responses:
+      200:
+        body:
+          application/json:
+            type: Contravention[]
+            example: |
+              [
+                {
+                  "etablissement": "AU COQ DDO",
+                  "date": "2023-10-16",
+                  "montant": 500.0,
+                  "ville": "Dollard-des-Ormeaux",
+                  "description": "Les personnes affectées à la préparation..."
+                }
+              ]
+
+types:
+  Contravention:
+    type: object
+    properties:
+      etablissement: string
+      date: date
+      montant: number
+      ville: string
+      description: string

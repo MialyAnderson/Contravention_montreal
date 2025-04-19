@@ -2,102 +2,273 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche d'infractions alimentaires</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="{{ url_for('static', filename='js/recherche.js') }}" defer></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-banner h1 {
+            font-weight: 700;
+            font-size: 2.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            border: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 12px;
+        }
+        
+        .btn-custom {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-custom:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.25);
+        }
+        
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table thead th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1rem;
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+        
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-color: #e2e8f0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-banner h1 {
+                font-size: 1.75rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
-<div class="container py-5">
+<div class="hero-banner">
+    <h1>Découvrez les contraventions de vos restaurants avec Anderson</h1>
+</div>
 
-    <h1 class="mb-4 text-center">Recherche d'infractions alimentaires</h1>
-
+<div class="container py-4">
     <!-- Formulaire principal -->
-    <div class="bg-white p-4 rounded shadow-sm mb-5">
-        <form action="/recherche" method="get">
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <label class="form-label">Nom de l'établissement</label>
-                    <input type="text" name="nom" class="form-control" placeholder="ex: Subway">
+    <div class="card">
+        <div class="card-body">
+            <h2><i class="fas fa-search"></i> Recherche d'infractions alimentaires</h2>
+            <form action="/recherche" method="get">
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nom de l'établissement</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-store"></i></span>
+                            <input type="text" name="nom" class="form-control" placeholder="ex: Subway">
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Propriétaire</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" name="proprietaire" class="form-control" placeholder="ex: Jean Tremblay">
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Rue</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                            <input type="text" name="rue" class="form-control" placeholder="ex: boulevard Rosemont">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Propriétaire</label>
-                    <input type="text" name="proprietaire" class="form-control" placeholder="ex: Jean Tremblay">
+                <div class="text-end">
+                    <button type="submit" class="btn btn-custom">
+                        <i class="fas fa-search me-2"></i>Rechercher
+                    </button>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Rue</label>
-                    <input type="text" name="rue" class="form-control" placeholder="ex: boulevard Rosemont">
-                </div>
-            </div>
-            <div class="text-end">
-                <button type="submit" class="btn btn-primary">Rechercher</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <!-- Formulaire AJAX -->
-    <div class="bg-white p-4 rounded shadow-sm mb-4">
-        <h2 class="mb-3">Recherche rapide de contraventions</h2>
-        <form id="rechercheForm" class="row g-3 align-items-end">
-            <div class="col-md-5">
-                <label for="du" class="form-label">Date de début</label>
-                <input type="date" id="du" name="du" class="form-control" required>
-            </div>
-            <div class="col-md-5">
-                <label for="au" class="form-label">Date de fin</label>
-                <input type="date" id="au" name="au" class="form-control" required>
-            </div>
-            <div class="col-md-2 text-end">
-                <button type="submit" class="btn btn-outline-dark w-100">Rechercher</button>
-            </div>
-        </form>
+    <div class="card">
+        <div class="card-body">
+            <h2><i class="fas fa-bolt"></i> Recherche rapide de contraventions</h2>
+            <form id="rechercheForm" class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label for="du" class="form-label">Date de début</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        <input type="date" id="du" name="du" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <label for="au" class="form-label">Date de fin</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        <input type="date" id="au" name="au" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-custom w-100">
+                        <i class="fas fa-bolt me-2"></i>Rechercher
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Résultats -->
-    <div id="resultatsSection" class="bg-white p-4 rounded shadow-sm" style="display:none;">
-        <h3>Résultats</h3>
-        <table class="table table-striped mt-3" id="resultatsTable">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Établissement</th>
-                    <th scope="col">Nombre de contraventions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <div id="resultatsSection" class="card" style="display:none;">
+        <div class="card-body">
+            <h2><i class="fas fa-clipboard-list"></i> Résultats</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="resultatsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Établissement</th>
+                            <th scope="col">Nombre de contraventions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div class="bg-white p-4 rounded shadow-sm mb-4">
-        <h2 class="mb-3">Recherche par restaurant</h2>
-        <form id="formulaireRestaurant" class="row g-3 align-items-end">
-            <div class="col-md-10">
-                <label class="form-label" for="listeRestaurants">Choisissez un établissement</label>
-                <select id="listeRestaurants" class="form-select" required>
-                    <!-- Options ajoutées dynamiquement -->
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-outline-primary w-100">Afficher les infractions</button>
-            </div>
-        </form>
+    <!-- Recherche par restaurant -->
+    <div class="card">
+        <div class="card-body">
+            <h2><i class="fas fa-utensils"></i> Recherche par restaurant</h2>
+            <form id="formulaireRestaurant" class="row g-3 align-items-end">
+                <div class="col-md-10">
+                    <label class="form-label" for="listeRestaurants">Choisissez un établissement</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-store"></i></span>
+                        <select id="listeRestaurants" class="form-select" required>
+                            <!-- Options ajoutées dynamiquement -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-custom w-100">
+                        <i class="fas fa-eye me-2"></i>Afficher
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-    
-    <div id="infractionsResultat" class="bg-white p-4 rounded shadow-sm" style="display:none;">
-        <h3>Infractions du restaurant sélectionné</h3>
-        <table class="table table-bordered mt-3">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Montant</th>
-                    <th>Ville</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    
 
+    <div id="infractionsResultat" class="card" style="display:none;">
+        <div class="card-body">
+            <h2><i class="fas fa-exclamation-triangle"></i> Infractions du restaurant sélectionné</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Montant</th>
+                            <th>Ville</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

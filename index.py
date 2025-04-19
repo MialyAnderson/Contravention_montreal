@@ -1,7 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for,jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
+from database import import_data  
 import database
 
 app = Flask(__name__)
+
+def mise_a_jour_quotidienne():
+    print(f"[{datetime.now()}] 🔄 Mise à jour des données...")
+    import_data()
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(mise_a_jour_quotidienne, trigger='cron', hour=0, minute=0)
+scheduler.start()
+
+import atexit
+atexit.register(lambda: scheduler.shutdown())
 
 @app.route('/')
 def index():
